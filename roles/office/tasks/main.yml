@@ -1,0 +1,15 @@
+---
+- name: Install latex
+  pacman: name=texlive-most state=present
+
+- name: Install wkhtmltopdf
+  pacman: name=texlive-most state=present
+
+- name: Install Gnome keyring
+  pacman: name=gnome-keyring state=present
+
+- name: Install Icu
+  pacman: name=icu state=present
+
+- name: Install Skype
+  aur: name=skypeforlinux-stable-bin user={{ user.name }} dir=/tmp

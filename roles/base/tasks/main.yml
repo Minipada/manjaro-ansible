@@ -1,0 +1,78 @@
+---
+- name: Copy pacman configuration file
+  template: src=pacman.conf.j2 dest=/etc/pacman.conf
+  when: inventory_hostname in groups['laptop']
+
+- name: Refresh pacman mirrors
+  become: yes
+  pacman:
+    update_cache: yes
+    upgrade: yes
+  tags:
+    - upgrade
+
+- name: Install shells
+  include_tasks: shell.yml
+
+- name: Install universal base packages
+  pacman:
+    state: present
+    name:
+      - bat
+      - binutils
+      - copyq
+      - htop
+      - mlocate
+      - python
+      - python3
+      - rsync
+      - tar
+      - tree
+      - unzip
+  tags:
+    - packages
+
+- name: Ensure locale en_US.UTF-8 locale is present
+  locale_gen:
+    name: en_US.UTF-8
+    state: present
+
+- name: Set local en_US.UTF-8 locale systemwide
+  copy:
+    dest: "/etc/locale.conf"
+    content: "LANG=en_US.UTF-8"
+
+- name: Set timezone to '{{ timezone }}'
+  timezone:
+    name: '{{ timezone }}'
+
+- name: Install Power management
+  pacman:
+    state: present
+    name:
+      - acpid
+      - acpi
+      - powertop
+  tags:
+    - power
+
+- name: Enable ACPID
+  service: name=acpid.service enabled=yes
+  tags:
+    - power
+
+- name: Enable fstrim for ssd
+  service: name=fstrim.timer enabled=yes
+
+- name: Install smartmontools
+  pacman: name=smartmontools state=present
+
+- debug:
+    msg: "First item: {{ ansible_processor }}"
+
+- name: Install Intel microcode
+  pacman: name=intel-ucode state=present
+  when: '"GenuineIntel" in ansible_processor'
+
+- name: Install optimus-manager-qt
+  aur: name=optimus-manager-qt user={{ user.name }} dir=/tmp

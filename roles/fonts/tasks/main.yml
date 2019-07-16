@@ -1,0 +1,18 @@
+---
+- name: Install core fonts
+  pacman:
+    state: present
+    name:
+      - terminus-font
+      - noto-fonts
+      - ttf-dejavu
+      - ttf-liberation
+      - ttf-droid
+      - ttf-ubuntu-font-family
+
+- name: Install Font-Awesome
+  pacman:
+    state: present
+    name:
+      - otf-font-awesome
+      - ttf-font-awesome

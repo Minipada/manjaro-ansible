@@ -1,0 +1,9 @@
+---
+- name: Install boost
+  pacman: name=boost state=present
+
+- name: Install fortran
+  pacman: name=gcc-fortran state=present
+
+- name: Install perl
+  pacman: name=perl state=present

@@ -1,0 +1,3 @@
+---
+- name: Install anki
+  pacman: name=anki state=present

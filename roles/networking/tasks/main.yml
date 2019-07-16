@@ -1,0 +1,7 @@
+---
+# - name: Setup firewall
+#   include_tasks: firewall.yml
+#   tags: ufw
+
+- name: Install nmap
+  pacman: name=nmap state=present

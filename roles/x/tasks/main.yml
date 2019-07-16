@@ -1,0 +1,56 @@
+---
+- name: Install Xorg
+  pacman: name=xorg-server state=present
+
+- name: Install Xinit
+  pacman: name=xorg-xinit state=present
+
+- name: Install xrandr
+  pacman:
+    state: present
+    name:
+     - xorg-xrandr
+     - arandr
+
+- name: Install intel video hardware drivers
+  pacman:
+    state: present
+    name:
+      - xf86-video-intel
+      - libva-intel-driver
+      - xorg-xbacklight
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Install nvidia video hardware drivers
+  pacman:
+    state: present
+    name:
+      - nvidia
+      - optimus-manager
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Configure optimus manager to use NVIDIA
+  copy:
+    src: "{{ role_path }}/files/10-optimus-manager.conf"
+    dest: /etc/X11/xorg.conf.d/10-optimus-manager.conf
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Configure touchpad (to be able to click on tap)
+  copy:
+    src: "{{ role_path }}/files/30-touchpad.conf"
+    dest: /etc/X11/xorg.conf.d/30-touchpad.conf
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Install mesa demos
+  pacman: name=mesa-demos state=present
+
+- name: Add user to video group
+  user: name={{ user.name }} groups=video append=yes
+
+- name: Copy wallpaper script
+  copy:
+    src: "{{ role_path }}/files/set_wallpaper.py"
+    dest: /tmp/set_wallpaper.py
+
+- name: Set wallpaper
+  command: export $DBUS_SESSION_BUS_ADDRESS && python /tmp/set_wallpaper.py /home/{{ user.name }}/.wallpaper.jpg

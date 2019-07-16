@@ -1,0 +1,17 @@
+---
+- name: Clone oh-my-zsh repo
+  git:
+    repo: https://github.com/robbyrussell/oh-my-zsh.git
+    dest: /home/{{ user.name }}/.oh-my-zsh
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Clone superkolo repo
+  git:
+    repo: https://github.com/minipada/superkolo.git
+    dest: /tmp/superkolo
+  become: yes
+  become_user: "{{ user.name }}"
+
+- name: Copy superkolo theme file
+  copy: remote_src=True src=/tmp/superkolo/superkolo.zsh-theme dest=/home/{{ user.name }}/.oh-my-zsh/themes/superkolo.zsh-theme

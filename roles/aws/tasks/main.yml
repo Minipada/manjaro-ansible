@@ -1,0 +1,7 @@
+---
+- name: Install aws-cli
+  pacman: name=aws-cli state=present
+  tags:
+    - aws-cli
+
+#TODO Install awless https://github.com/wallix/awless#install

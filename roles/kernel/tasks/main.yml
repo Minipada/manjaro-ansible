@@ -1,0 +1,24 @@
+---
+- name: Only enable one touchpad driver
+  copy:
+    src: "{{ role_path }}/files/blacklist-ideapad.conf"
+    dest: /etc/modprobe.d/blacklist-ideapad.conf
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Use nouveau driver for NVIDIA
+  copy:
+    src: "{{ role_path }}/files/nvidia-installer-disable-nouveau.conf"
+    dest: /etc/modprobe.d/nvidia-installer-disable-nouveau.conf
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Configure NVIDIA driver
+  copy:
+    src: "{{ role_path }}/files/nvidia.conf"
+    dest: /etc/modprobe.d/nvidia.conf
+  when: ansible_product_name == "Lenovo Y520"
+
+- name: Configure Wifi driver
+  copy:
+    src: "{{ role_path }}/files/r8169_blacklist.conf"
+    dest: /etc/modprobe.d/r8169_blacklist.conf
+  when: ansible_product_name == "Lenovo Y520"

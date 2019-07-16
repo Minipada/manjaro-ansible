@@ -1,0 +1,9 @@
+- name: Install vim
+  pacman: state=present name=vim
+  tags:
+    - editor
+
+- name: Install vscodium
+  aur: name=vscodium-bin user={{ user.name }} dir=/tmp
+  tags:
+    - editor

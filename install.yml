@@ -1,0 +1,32 @@
+---
+- hosts: localhost
+  become: yes
+  roles:
+    - aws
+    - base
+    - bluetooth
+    - browsers
+    - c_cpp
+    - containers
+    - cron
+    - development
+    - dotfiles
+    - editors
+    - fonts
+    - golang
+    - gui
+    - javascript
+    - kernel
+    - monitoring
+    - multimedia
+    - networking
+    - numerical
+    - office
+    - python
+    - sound
+    - spell
+    - ssh
+    - studying
+    - terminal
+    - virtualization
+    - x

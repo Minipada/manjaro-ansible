@@ -1,0 +1,28 @@
+---
+- name: Clone user dotfiles
+  git:
+    repo: "{{ dotfiles.url }}"
+    dest: /tmp/dotfiles
+    update: yes
+  failed_when: dotfiles is not defined
+
+- name: Delete user dotfiles git folder
+  shell: 'rm -rf /tmp/dotfiles/.git'
+
+- name: Copy user dotfiles
+  shell: 'cp -r /tmp/dotfiles/. /home/{{ user.name }}'
+
+- name: Set Wallpaper
+  lineinfile:
+    dest: /home/{{ user.name }}/.config/plasma-org.kde.plasma.desktop-appletsrc
+    regexp: '^Image.*'
+    line: 'Image=file:///home/{{ user.name }}/.wallpaper.jpg'
+
+- name: Use application menu instead of launcher
+  lineinfile:
+    dest: /home/{{ user.name }}/.config/plasma-org.kde.plasma.desktop-appletsrc
+    regexp: '^plugin=org.kde.plasma.kick.*'
+    line: 'plugin=org.kde.plasma.kicker'
+
+- name: configure Oh-My-Zsh
+  include_tasks: ohmyzsh.yml

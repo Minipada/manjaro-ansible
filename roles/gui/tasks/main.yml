@@ -1,0 +1,82 @@
+---
+# Source: https://store.kde.org/p/1311606/
+- name: Copy Ankh theme
+  copy:
+    src: "{{ role_path }}/files/Ankh-No-Blur.tar.gz"
+    dest: /tmp/Ankh-No-Blur.tar.gz
+  tags:
+    - kde-theme
+
+- name: Create Ankh directory
+  file:
+    path: /usr/share/sddm/themes/Ankh-No-Blur
+    state: directory
+  tags:
+    - kde-theme
+
+- name: Extract Ankh theme
+  unarchive: src=/tmp/Ankh-No-Blur.tar.gz
+             dest=/usr/share/sddm/themes/Ankh-No-Blur
+  tags:
+    - kde-theme
+
+- name: Copy Opal theme
+  copy:
+    src: "{{ role_path }}/files/Opal-Plasma-1.0.tar.gz"
+    dest: /tmp/Opal-Plasma-1.0.tar.gz
+  tags:
+    - kde-theme
+
+- name: Create Opal theme directory
+  file:
+    path: /home{{ user.name }}/.local/share/aurorae/themes/Opal
+    state: directory
+  tags:
+    - kde-theme
+
+- name: Extract Opal theme
+  unarchive: src=/tmp/Opal-Plasma-1.0.tar.gz
+             dest=/home{{ user.name }}/.local/share/aurorae/themes/Opal
+  tags:
+    - kde-theme
+
+- name: Install plank
+  pacman: state=present name=plank
+
+- name: Copy plank theme
+  copy:
+    src: "{{ role_path }}/files/cupertino.tar.xz"
+    dest: /tmp/cupertino.tar.xz
+
+- name: Create plank directory
+  file:
+    path: /home/{{ user.name }}/.local/share/plank/themes/
+    state: directory
+
+- name: Extract plank theme
+  unarchive: src=/tmp/cupertino.tar.xz
+             dest=/home/{{ user.name }}/.local/share/plank/themes/
+
+- name: Download papirus
+  get_url: url=https://raw.githubusercontent.com/PapirusDevelopmentTeam/papirus-icon-theme/master/install.sh dest=/tmp/install_papirus.sh
+
+- name: Install papirus
+  command: sh /tmp/install_papirus.sh
+
+- name: Install conky
+  pacman: state=present name=conky
+
+- name: Install neofetch
+  pacman: state=present name=neofetch
+
+- name: Disable sddm start scripts
+  lineinfile:
+    dest: /etc/sddm.conf
+    regexp: '^DisplayCommand=/usr/share/sddm/scripts/Xsetup'
+    line: '#DisplayCommand=/usr/share/sddm/scripts/Xsetup'
+
+- name: Disable sddm stop scripts
+  lineinfile:
+    dest: /etc/sddm.conf
+    regexp: '^DisplayStopCommand=/usr/share/sddm/scripts/Xsetup'
+    line: '#DisplayStopCommand=/usr/share/sddm/scripts/Xsetup'

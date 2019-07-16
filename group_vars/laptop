@@ -1,0 +1,14 @@
+user:
+    name: david
+    uid: 1000
+    group: david
+    shell: /usr/bin/zsh
+
+dotfiles:
+    url: https://github.com/Minipada/dotfiles.git
+    destination: ~
+
+bluetooth:
+    disable: False
+
+timezone: Europe/Berlin

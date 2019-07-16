@@ -1,0 +1,33 @@
+---
+- name: Install Bash
+  pacman:
+    name:
+      - bash
+      - bash-completion
+    state: present
+  tags:
+    - shell
+
+- name: Install ZSH
+  pacman:
+    name:
+      - zsh
+      - zsh-completions
+      - zsh-syntax-highlighting
+    state: present
+  tags:
+    - shell
+
+- name: change user shell to zsh
+  become: yes
+  become_user: root
+  command: chsh -s /bin/zsh "{{ user.name }}"
+
+- name: Install shell utilities
+  pacman:
+    name:
+      - cowsay
+      - source-highlight      # For syntax highlighting in less
+      - tree
+      - tmux
+    state: present
