@@ -25,6 +25,7 @@
       - mlocate
       - python
       - python3
+      - redshift
       - rsync
       - tar
       - tree
