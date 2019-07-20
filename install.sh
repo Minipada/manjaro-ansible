@@ -17,4 +17,7 @@ KDE:
 Set startup scripts:
 * Conky
 * Franz
+
+Use schedutil governor (after reboot):
+cpupower frequency-set -g schedutil
 ' | cowsay -f stegosaurus -n

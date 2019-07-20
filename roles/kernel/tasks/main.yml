@@ -22,3 +22,19 @@
     src: "{{ role_path }}/files/r8169_blacklist.conf"
     dest: /etc/modprobe.d/r8169_blacklist.conf
   when: ansible_product_name == "Lenovo Y520"
+
+- name: Enable acpi-cpufreq
+  shell: echo 'acpi-cpufreq' >> /etc/modules-load.d/modules.conf
+  become: yes
+
+- name: Enable ondemand CPU frequency mode
+  shell: echo 'cpufreq_ondemand' >> /etc/modules-load.d/modules.conf
+  become: yes
+
+- name: Enable powersave CPU frequency mode
+  shell: echo 'cpufreq_powersave' >> /etc/modules-load.d/modules.conf
+  become: yes
+
+- name: Enable conservative CPU frequency mode
+  shell: echo 'cpufreq_conservative' >> /etc/modules-load.d/modules.conf
+  become: yes
