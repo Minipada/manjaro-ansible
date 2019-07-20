@@ -80,3 +80,9 @@
     dest: /etc/sddm.conf
     regexp: '^DisplayStopCommand=/usr/share/sddm/scripts/Xsetup'
     line: '#DisplayStopCommand=/usr/share/sddm/scripts/Xsetup'
+
+- name: Enable numlock
+  lineinfile:
+    dest: /home{{ user.name }}/.config/kcminputrc
+    regexp: '^NumLock=.*'
+    line: 'NumLock=1'

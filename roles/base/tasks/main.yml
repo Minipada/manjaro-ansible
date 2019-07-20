@@ -21,11 +21,14 @@
       - bat
       - binutils
       - copyq
+      - filezilla
+      - gparted
       - htop
       - mlocate
       - python
       - python3
       - redshift
+      - remmina
       - rsync
       - tar
       - tree
@@ -77,3 +80,6 @@
 
 - name: Install optimus-manager-qt
   aur: name=optimus-manager-qt user={{ user.name }} dir=/tmp
+
+- name: Install kazam
+  aur: name=kazam user={{ user.name }} dir=/tmp
