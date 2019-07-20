@@ -1,0 +1,40 @@
+- name: Install grub packages
+  pacman:
+    state: present
+    name:
+      - gparted
+      - grub-customizer
+
+- name: Register nouveau variable
+  shell: grep "GRUB_CMDLINE_LINUX_DEFAULT=" /etc/default/grub | grep nouveau
+  register: nouveau
+  check_mode: no
+  ignore_errors: yes
+
+- name: Register intel_pstate variable
+  shell: grep "GRUB_CMDLINE_LINUX_DEFAULT=" /etc/default/grub | grep intel_pstate
+  register: intel_pstate
+  check_mode: no
+  ignore_errors: yes
+
+- name: Set nouveau modeset
+  lineinfile:
+    dest: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX_DEFAULT=.*)"'
+    line: '\g<1> nouveau.modeset=0"'
+    backrefs: true
+  become: yes
+  when: nouveau.stdout == ""
+
+- name: Disable intel_pstate
+  lineinfile:
+    dest: /etc/default/grub
+    regexp: '^(GRUB_CMDLINE_LINUX_DEFAULT=.*)"'
+    line: '\g<1> intel_pstate=disable"'
+    backrefs: true
+  become: yes
+  when: intel_pstate.stdout == ""
+
+- name: Update Grub
+  shell: update-grub
+  become: yes
