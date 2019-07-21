@@ -22,6 +22,7 @@
       - binutils
       - copyq
       - filezilla
+      - fzf
       - gparted
       - htop
       - mlocate
@@ -30,11 +31,19 @@
       - redshift
       - remmina
       - rsync
+      - sysstat
       - tar
       - tree
       - unzip
   tags:
     - packages
+
+- name: Enable sysstat service
+  systemd:
+    name: sysstat
+    state: start
+    enabled: yes
+    masked: no
 
 - name: Ensure locale en_US.UTF-8 locale is present
   locale_gen:
