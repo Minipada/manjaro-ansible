@@ -30,6 +30,7 @@
     - terminal
     - virtualization
     - x
+    - zram
     - { role: markosamuli.pyenv }
 
 # TODO

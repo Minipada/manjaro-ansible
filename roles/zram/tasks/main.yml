@@ -1,0 +1,27 @@
+- name: Copy modprobe.d/zram.conf
+  copy:
+    src: "{{ role_path }}/files/etc/modprobe.d/zram.conf"
+    dest: /etc/modprobe.d/zram.conf
+  tags:
+    - zram
+
+- name: Copy modules-load.d/zram.conf
+  copy:
+    src: "{{ role_path }}/files/etc/modules-load.d/zram.conf"
+    dest: /etc/modules-load.d/zram.conf
+  tags:
+    - zram
+
+- name: Copy zram udev rule
+  copy:
+    src: "{{ role_path }}/files/etc/udev/rules.d/99-zram.rules"
+    dest: /etc/udev/rules.d/99-zram.rules
+  tags:
+    - zram
+
+- name: Mount zram automatically
+  lineinfile:
+    dest: /etc/fstab
+    line: '/dev/zram0 none swap defaults 0 0'
+  tags:
+    - zram
