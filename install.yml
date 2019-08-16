@@ -30,6 +30,7 @@
     - terminal
     - virtualization
     - x
+    - { role: markosamuli.pyenv }
 
 # TODO
 # https://wiki.archlinux.org/index.php/Power_management/Suspend_and_hibernate

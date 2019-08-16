@@ -5,6 +5,8 @@ set -e
 sudo pacman -Syu --noconfirm
 sudo pacman -S ansible git --noconfirm
 
+ansible-galaxy install markosamuli.pyenv
+
 ANSIBLE_COW_SELECTION=tux ansible-playbook -i hosts -b install.yml
 
 echo 'Install ready. You now need to set some last stuff
